@@ -12,7 +12,7 @@ interface Props {
 }
 const ArcadeCard = ({ arcade }: Props) => {
   return (
-    <Card>
+    <Card className="w-full md:w-fit">
       <CardHeader>
         <a
           href={`https://zenius-i-vanisher.com/v5.2/arcade.php?id=${arcade.id}`}
