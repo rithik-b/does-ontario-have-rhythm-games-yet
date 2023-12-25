@@ -18,7 +18,7 @@ export interface Arcade {
   longitude: number
   information: string
   formattedInformation: string
-  lastUpdateTime: Date
+  lastUpdateTime: string
   lastUpdateDifference: string
   openingTimes: Array<Array<boolean | OpeningTime>>
   website: string

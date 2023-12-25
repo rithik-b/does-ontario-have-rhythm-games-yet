@@ -12,6 +12,6 @@
   },
   "aliases": {
     "components": "@seethe/components",
-    "utils": "@seethe/utils"
+    "utils": "@seethe/utils/cn"
   }
 }

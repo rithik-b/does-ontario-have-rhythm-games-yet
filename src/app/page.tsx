@@ -1,38 +1,8 @@
-import type { Machine, ZivResponse } from "@seethe/types/ZivResponse"
 import ArcadeCard from "@seethe/components/ArcadeCard"
+import TimeElapsed from "@seethe/components/TimeElapsed"
+import getFilteredArcades from "@seethe/utils/getFilteredArcades"
 
-const danceGames = [
-  "dancemania",
-  "stepmania",
-  "dancedancerevolution",
-  "dance dance revolution",
-  "in the groove",
-  "pump it up",
-]
-
-const machineFilter = (machine: Machine) =>
-  machine.game.genre === "Music Game" &&
-  !danceGames.some((game) => machine.game.name.toLowerCase().includes(game))
-
-const getFilteredArcades = async () => {
-  const zivResponse = await fetch(
-    "https://zenius-i-vanisher.com/api/arcades.php?action=query&country=Canada&skip_pictures=true&skip_visitors=true&skip_comments=true",
-    {
-      next: { revalidate: 3600 },
-    },
-  ).then((res) => res.json() as Promise<ZivResponse>)
-  const arcades = zivResponse.arcades.filter(
-    (arcade) =>
-      arcade.subregion === "Ontario" && arcade.machines.some(machineFilter),
-  )
-  for (const arcade of arcades) {
-    arcade.machines = arcade.machines.filter(machineFilter)
-  }
-
-  return arcades.sort((a, b) =>
-    a.postalCode.toLowerCase().localeCompare(b.postalCode.toLowerCase()),
-  )
-}
+export const revalidate = 3600 // revalidate the data at most every hour
 
 const Home = async () => {
   const filteredArcades = await getFilteredArcades()
@@ -40,24 +10,27 @@ const Home = async () => {
   return (
     <main className="relative flex h-full flex-col justify-between gap-y-8 overflow-scroll px-5">
       <header className="mt-5">
-        <h1 className="text-center text-5xl font-semibold md:text-6xl">
+        <h1 className="text-center text-5xl font-bold md:text-6xl">
           Does Ontario have non-dance rhythm games yet?
         </h1>
       </header>
       <div className="flex flex-wrap items-center justify-center gap-5">
-        {filteredArcades.map((arcade) => (
+        {filteredArcades.arcades.map((arcade) => (
           <ArcadeCard arcade={arcade} key={arcade.id} />
         ))}
       </div>
-      <footer className="mb-5 text-center">
-        Data Source:{" "}
-        <a
-          className="font-medium hover:underline"
-          href="https://zenius-i-vanisher.com/v5.2/arcades.php"
-          target="_blank"
-        >
-          Zenius-I-Vanisher
-        </a>
+      <footer className="mb-5 flex w-full flex-col items-center text-center">
+        <div>
+          Data Source -{" "}
+          <a
+            className="font-semibold hover:underline"
+            href="https://zenius-i-vanisher.com/v5.2/arcades.php"
+            target="_blank"
+          >
+            Zenius-I-Vanisher
+          </a>
+        </div>
+        <TimeElapsed epochTime={filteredArcades.updatedAt} />
       </footer>
     </main>
   )

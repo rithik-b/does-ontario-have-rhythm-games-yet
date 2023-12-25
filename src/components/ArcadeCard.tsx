@@ -3,14 +3,18 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@seethe/components/ui/card"
+import TimeElapsed from "@seethe/components/TimeElapsed"
 
 interface Props {
   arcade: Arcade
 }
+
 const ArcadeCard = ({ arcade }: Props) => {
+  const lastUpdated = new Date(arcade.lastUpdateTime).getTime()
   return (
     <Card className="w-full md:w-fit">
       <CardHeader>
@@ -30,6 +34,9 @@ const ArcadeCard = ({ arcade }: Props) => {
           ))}
         </ul>
       </CardContent>
+      <CardFooter className="flex justify-center">
+        <TimeElapsed epochTime={lastUpdated} />
+      </CardFooter>
     </Card>
   )
 }
