@@ -28,23 +28,28 @@ const getFilteredArcades = async () => {
   for (const arcade of arcades) {
     arcade.machines = arcade.machines.filter(machineFilter)
   }
-  return arcades
+
+  return arcades.sort((a, b) =>
+    a.postalCode.toLowerCase().localeCompare(b.postalCode.toLowerCase()),
+  )
 }
 
 const Home = async () => {
   const filteredArcades = await getFilteredArcades()
 
   return (
-    <main className="relative flex h-full flex-col justify-between gap-y-10 p-5 md:p-10">
-      <h1 className="text-center text-5xl font-semibold md:text-6xl">
-        Does Ontario have non-dance rhythm games yet?
-      </h1>
+    <main className="relative flex h-full flex-col justify-between gap-y-8 overflow-scroll px-5">
+      <header className="mt-5">
+        <h1 className="text-center text-5xl font-semibold md:text-6xl">
+          Does Ontario have non-dance rhythm games yet?
+        </h1>
+      </header>
       <div className="flex flex-wrap items-center justify-center gap-5">
         {filteredArcades.map((arcade) => (
           <ArcadeCard arcade={arcade} key={arcade.id} />
         ))}
       </div>
-      <footer className="text-center">
+      <footer className="mb-5 text-center">
         Data Source:{" "}
         <a
           className="font-medium hover:underline"
