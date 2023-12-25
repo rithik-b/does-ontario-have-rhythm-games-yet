@@ -39,7 +39,7 @@ const Home = async () => {
       <h1 className="text-center text-5xl font-semibold md:text-6xl">
         Does Ontario have non-dance rhythm games yet?
       </h1>
-      <div className="flex flex-wrap justify-center gap-5">
+      <div className="flex flex-wrap items-center justify-center gap-5">
         {filteredArcades.map((arcade) => (
           <ArcadeCard arcade={arcade} key={arcade.id} />
         ))}
