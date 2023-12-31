@@ -4,6 +4,7 @@ const config = {
   parserOptions: {
     project: true
   },
+  ignorePatterns: ["public/"],
   plugins: ["@typescript-eslint"],
   extends: [
     "plugin:@next/next/recommended",
