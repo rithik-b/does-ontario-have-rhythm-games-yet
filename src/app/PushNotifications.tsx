@@ -22,7 +22,13 @@ const registerServiceWorker = async () => {
 
 export const unregisterServiceWorkers = async () => {
   const registrations = await navigator.serviceWorker.getRegistrations()
-  await Promise.all(registrations.map((r) => r.unregister()))
+  await Promise.all(
+    registrations.map(async (r) => {
+      const subscription = await r.pushManager.getSubscription()
+      await subscription?.unsubscribe()
+      await r.unregister()
+    }),
+  )
 }
 
 const subscribe = async () => {
@@ -41,15 +47,25 @@ const PushNotifications = () => {
   const [notificationsSupported, setNotificationsSupported] = useState(false)
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
   const [notificationsToggleEnabled, setNotificationsToggleEnabled] =
-    useState(true)
+    useState(false)
 
   useEffect(() => {
-    setNotificationsSupported(
+    const notificationsSupported =
       "Notification" in window &&
-        "serviceWorker" in navigator &&
-        "PushManager" in window,
-    )
-    setNotificationsEnabled(window?.Notification.permission === "granted")
+      "serviceWorker" in navigator &&
+      "PushManager" in window
+    setNotificationsSupported(notificationsSupported)
+
+    const checkNotifications = async () => {
+      const swRegistration = await navigator.serviceWorker.getRegistration()
+      const subscription = await swRegistration?.pushManager.getSubscription()
+      setNotificationsEnabled(
+        !!subscription && window.Notification.permission === "granted",
+      )
+    }
+
+    if (notificationsSupported)
+      void checkNotifications().then(() => setNotificationsToggleEnabled(true))
   }, [])
 
   const toggleNotifications = useCallback(async (toggleState: boolean) => {

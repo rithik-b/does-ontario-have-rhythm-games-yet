@@ -3,7 +3,7 @@
 import type { Arcade, Machine, ZivResponse } from "@seethe/types/ZivResponse"
 import { cache } from "react"
 import getSupabaseClient from "@seethe/utils/getSupabaseClient"
-import webpush from "web-push"
+import webpush, { WebPushError } from "web-push"
 import { env } from "@seethe/env"
 
 const danceGames = [
@@ -90,7 +90,16 @@ const notifySubscribers = async () => {
       title: "Ontario Arcade Updates",
       body: "New machines have been added to an arcade near you!",
     })
-    await webpush.sendNotification(subscription, payload)
+    try {
+      await webpush.sendNotification(subscription, payload)
+    } catch (error) {
+      if (error instanceof WebPushError && error.statusCode === 410) {
+        await supabase
+          .from("push_subscriptions")
+          .delete()
+          .eq("endpoint", subscription.endpoint)
+      }
+    }
   }
 }
 
