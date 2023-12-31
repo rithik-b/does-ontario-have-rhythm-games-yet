@@ -5,6 +5,7 @@ import { cn } from "@seethe/utils/cn"
 
 export const metadata = {
   title: "Does Ontario have non-dance rhythm games yet?",
+  manifest: "/manifest.json",
 }
 
 const RootLayout = ({ children }: PropsWithChildren) => {
