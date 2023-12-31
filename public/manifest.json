@@ -1,0 +1,13 @@
+{
+  "theme_color" : "",
+  "background_color" : "",
+  "display" : "standalone",
+  "scope" : "/",
+  "start_url" : "/",
+  "name" : "Does Ontario have Rhythm Games Yet",
+  "short_name" : "OntarioRG",
+  "icons": [{
+    "src": "favicon.ico",
+    "sizes": "any"
+  }]
+}
