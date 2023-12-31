@@ -16,7 +16,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "ES2022"
+      "ES2022",
+      "webworker"
     ],
     "noEmit": true,
     "module": "ESNext",
@@ -46,6 +47,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "public"
   ]
 }

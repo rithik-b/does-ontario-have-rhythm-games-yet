@@ -1,6 +1,7 @@
 import ArcadeCard from "@seethe/components/ArcadeCard"
 import TimeElapsed from "@seethe/components/TimeElapsed"
 import getFilteredArcades from "@seethe/utils/getFilteredArcades"
+import PushNotifications from "@seethe/app/PushNotifications"
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
@@ -19,18 +20,21 @@ const Home = async () => {
           <ArcadeCard arcade={arcade} key={arcade.id} />
         ))}
       </div>
-      <footer className="mb-5 flex w-full flex-col items-center text-center">
-        <div>
-          Data Source -{" "}
-          <a
-            className="font-semibold hover:underline"
-            href="https://zenius-i-vanisher.com/v5.2/arcades.php"
-            target="_blank"
-          >
-            Zenius-I-Vanisher
-          </a>
+      <footer className="mb-5 flex w-full flex-col items-center gap-5 text-center">
+        <PushNotifications />
+        <div className="flex flex-col">
+          <div>
+            Data Source -{" "}
+            <a
+              className="font-semibold hover:underline"
+              href="https://zenius-i-vanisher.com/v5.2/arcades.php"
+              target="_blank"
+            >
+              Zenius-I-Vanisher
+            </a>
+          </div>
+          <TimeElapsed epochTime={filteredArcades.updatedAt} />
         </div>
-        <TimeElapsed epochTime={filteredArcades.updatedAt} />
       </footer>
     </main>
   )
