@@ -34,7 +34,7 @@ const subscribe = async () => {
     userVisibleOnly: true,
   }
   const subscription = await swRegistration.pushManager.subscribe(options)
-  await subscribeToPushNotifications(subscription)
+  await subscribeToPushNotifications(subscription.toJSON())
 }
 
 const PushNotifications = () => {

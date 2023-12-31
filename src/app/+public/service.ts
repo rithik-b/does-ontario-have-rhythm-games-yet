@@ -6,5 +6,6 @@ self.addEventListener("push", async (event) => {
   const eventData = (await event.data.json()) as { title: string; body: string }
   await self.registration.showNotification(eventData.title, {
     body: eventData.body,
+    icon: "/favicon.ico",
   })
 })
