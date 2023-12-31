@@ -1,6 +1,7 @@
 "use server"
 
 import getSupabaseClient from "@seethe/utils/getSupabaseClient"
+import { PushSubscription } from "web-push"
 
 const supabase = getSupabaseClient()
 
@@ -10,7 +11,7 @@ const subscribeToPushNotifications = async (
   delete subscription.expirationTime
   await supabase
     .from("push_subscriptions")
-    .insert({ endpoint: subscription.endpoint!, keys: subscription.keys! })
+    .insert(subscription as PushSubscription)
 }
 
 export default subscribeToPushNotifications
