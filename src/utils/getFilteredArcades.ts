@@ -88,7 +88,7 @@ const notifySubscribers = async () => {
   for (const subscription of data) {
     const payload = JSON.stringify({
       title: "Ontario Arcade Updates",
-      body: "New machines have been added to an arcade near you!",
+      body: "There have been updates to the arcades in Ontario!",
     })
     try {
       await webpush.sendNotification(subscription, payload)

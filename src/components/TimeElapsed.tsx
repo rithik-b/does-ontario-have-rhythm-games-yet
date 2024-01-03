@@ -52,7 +52,7 @@ const TimeElapsed = ({ epochTime }: Props) => {
   if (!currentTime) return null
 
   return (
-    <span className="text-center text-sm text-slate-500 dark:text-slate-400">
+    <span className="text-center text-sm text-gray-500 dark:text-gray-400">
       Last updated {timeElapsed()}
     </span>
   )
